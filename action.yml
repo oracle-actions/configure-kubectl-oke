@@ -1,0 +1,17 @@
+# Copyright (c) 2021, Oracle and/or its affiliates.
+# Licensed under the Universal Permissive License v1.0 as shown at https://oss.oracle.com/licenses/upl.
+---
+name: 'Configure Kubectl for OKE'
+description: >-
+  Install and configure Kubectl for the specified Oracle Engine for Kubernetes
+  (OKE) cluster
+inputs:
+  cluster:
+    required: true
+    description: The OCID of the target OKE cluster
+branding:
+  icon: 'circle'
+  color: 'red'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
