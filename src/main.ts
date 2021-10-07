@@ -38,16 +38,26 @@ async function getKubectl(version: string): Promise<string> {
  *
  */
 async function configureKubectl(): Promise<void> {
-  const cp = new common.ConfigFileAuthenticationDetailsProvider(
-    process.env.OCI_CLI_CONFIG_FILE
-  );
-
   if (!fs.existsSync(path.join(os.homedir(), '.oci-cli-installed'))) {
     core.startGroup('Installing Oracle Cloud Infrastructure CLI');
     await exec.exec('python -m pip install oci-cli');
     fs.writeFileSync(path.join(os.homedir(), '.oci-cli-installed'), 'success');
     core.endGroup();
   }
+
+  // Required environment variables
+  const tenancy: string = process.env.OCI_CLI_TENANCY || '';
+  const user: string = process.env.OCI_CLI_USER || '';
+  const fingerprint: string = process.env.OCI_CLI_FINGERPRINT || '';
+  const privateKey: string = process.env.OCI_CLI_KEY_CONTENT || '';
+
+  const cp = new common.SimpleAuthenticationDetailsProvider(
+    tenancy,
+    user,
+    fingerprint,
+    privateKey,
+    null
+  );
 
   const ceClient = new ce.ContainerEngineClient({
     authenticationDetailsProvider: cp
