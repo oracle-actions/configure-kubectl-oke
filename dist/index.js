@@ -78,13 +78,14 @@ function configureKubectl() {
             core.endGroup();
         }
         // Required environment variables
-        const tenancy = process.env.OCI_CLI_TENANCY || "";
-        const user = process.env.OCI_CLI_USER || "";
-        const fingerprint = process.env.OCI_CLI_FINGERPRINT || "";
-        const privateKey = process.env.OCI_CLI_KEY_CONTENT || "";
-        const cp = new common.SimpleAuthenticationDetailsProvider(tenancy, user, fingerprint, privateKey, null);
+        const tenancy = process.env.OCI_CLI_TENANCY || '';
+        const user = process.env.OCI_CLI_USER || '';
+        const fingerprint = process.env.OCI_CLI_FINGERPRINT || '';
+        const privateKey = process.env.OCI_CLI_KEY_CONTENT || '';
+        const region = common.Region.fromRegionId(process.env.OCI_CLI_REGION || "");
+        const authProvider = new common.SimpleAuthenticationDetailsProvider(tenancy, user, fingerprint, privateKey, null, region);
         const ceClient = new ce.ContainerEngineClient({
-            authenticationDetailsProvider: cp
+            authenticationDetailsProvider: authProvider
         });
         const oke = (yield ceClient.getCluster({
             clusterId: core.getInput('cluster', { required: true })
