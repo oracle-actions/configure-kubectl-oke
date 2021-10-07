@@ -46,21 +46,23 @@ async function configureKubectl(): Promise<void> {
   }
 
   // Required environment variables
-  const tenancy: string = process.env.OCI_CLI_TENANCY || '';
-  const user: string = process.env.OCI_CLI_USER || '';
-  const fingerprint: string = process.env.OCI_CLI_FINGERPRINT || '';
-  const privateKey: string = process.env.OCI_CLI_KEY_CONTENT || '';
+  const tenancy = process.env.OCI_CLI_TENANCY || '';
+  const user = process.env.OCI_CLI_USER || '';
+  const fingerprint = process.env.OCI_CLI_FINGERPRINT || '';
+  const privateKey = process.env.OCI_CLI_KEY_CONTENT || '';
+  const region = common.Region.fromRegionId(process.env.OCI_CLI_REGION || '');
 
-  const cp = new common.SimpleAuthenticationDetailsProvider(
+  const authProvider = new common.SimpleAuthenticationDetailsProvider(
     tenancy,
     user,
     fingerprint,
     privateKey,
-    null
+    null,
+    region
   );
 
   const ceClient = new ce.ContainerEngineClient({
-    authenticationDetailsProvider: cp
+    authenticationDetailsProvider: authProvider
   });
 
   const oke = (
