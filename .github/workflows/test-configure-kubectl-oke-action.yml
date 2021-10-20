@@ -1,0 +1,32 @@
+name: Test configure-kubectl-oke action
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  configure-kubectl-oke-test:
+    runs-on: ubuntu-latest
+    name: Test the kubectl action against a demo cluster
+    env:
+      OCI_CLI_USER: ${{ secrets.OCI_CLI_USER }}
+      OCI_CLI_TENANCY: ${{ secrets.OCI_CLI_TENANCY }}
+      OCI_CLI_FINGERPRINT: ${{ secrets.OCI_CLI_FINGERPRINT }}
+      OCI_CLI_KEY_CONTENT: ${{ secrets.OCI_CLI_KEY_CONTENT }}
+      OCI_CLI_REGION: ${{ secrets.OCI_CLI_REGION }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Configure Kubectl for OKE
+        uses: ./
+        id: test-configure-kubectl-oke-action
+        with:
+          cluster: ${{ secrets.OKE_CLUSTER_ID }}
+
+      - name: Get pods
+        run: kubectl get pods -A
