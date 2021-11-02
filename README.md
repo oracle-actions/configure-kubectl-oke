@@ -5,11 +5,21 @@ the specified [Oracle Container Engine for Kubernetes][OKE] (OKE) cluster.
 
 ## Prerequisites
 
-* The target OKE cluster must have a **public Kubernetes API Endpoint** in
-  order for the GitHub Action to connection to the cluster.
+The target OKE cluster must have a **public Kubernetes API Endpoint** in
+order for the GitHub Action to connection to the cluster.
 
-* The **[configure OCI credentials][CC]** action must be used in a preceeding step
-  of the current workflow job.
+The following [OCI CLI environment variables][1] must be defined for at least
+the `configure-kubectl-oke` task:
+
+* `OCI_CLI_USER`
+* `OCI_CLI_TENANCY`
+* `OCI_CLI_FINGERPRINT`
+* `OCI_CLI_KEY_CONTENT`
+* `OCI_CLI_REGION`
+
+We recommend using GitHub Secrets to store these values. [Defining your environment variables][2]
+at the job or workflow level would allow multiple tasks/jobs to reduce
+duplication.
 
 ## Inputs
 
@@ -18,24 +28,26 @@ the specified [Oracle Container Engine for Kubernetes][OKE] (OKE) cluster.
 ## Sample workflow steps
 
 ```yaml
-steps:
-  - name: Configure OCI Credentials
-    uses: oracle-actions/configure-oci-credentials@v1
-    with:
-      user: ${{ secrets.OCI_USER }}
-      fingerprint: ${{ secrets.OCI_FINGERPRINT }}
-      private_key: ${{ secrets.OCI_PRIVATE_KEY }}
-      tenancy: ${{ secrets.OCI_TENANCY }}
-      region: 'us-ashburn-1'
+jobs:
+  install-kubectl:
+    runs-on: ubuntu
+    name: Install Kubectl for OKE
+    env:
+      OCI_CLI_USER: ${{ secrets.OCI_CLI_USER }}
+      OCI_CLI_TENANCY: ${{ secrets.OCI_CLI_TENANCY }}
+      OCI_CLI_FINGERPRINT: ${{ secrets.OCI_CLI_FINGERPRINT }}
+      OCI_CLI_KEY_CONTENT: ${{ secrets.OCI_CLI_KEY_CONTENT }}
+      OCI_CLI_REGION: ${{ secrets.OCI_CLI_REGION }}
 
-  - name: Configure Kubectl
-    uses: oracle-actions/configure-kubectl-oke@v1
-    id: test-configure-kubectl-oke-action
-    with:
-      cluster: ${{ secrets.OKE_CLUSTER }}
+    steps:
+      - name: Configure Kubectl
+        uses: oracle-actions/configure-kubectl-oke@v1
+        id: test-configure-kubectl-oke-action
+        with:
+          cluster: ${{ secrets.OKE_CLUSTER }}
 
-  - name: Run Kubectl
-    run: kubectl get nodes -A
+      - name: Run Kubectl
+        run: kubectl get nodes -A
 ```
 
 ## Security recommendations
@@ -69,6 +81,8 @@ Copyright (c) 2021 Oracle and/or its affiliates.
 
 Released under the Universal Permissive License v1.0 as shown at
 <https://oss.oracle.com/licenses/upl/>.
+
+[1]: https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/clienvironmentvariables.htm
 
 [OKE]: https://www.oracle.com/cloud-native/container-engine-kubernetes/
 [CC]:  http://github.com/oracle-actions/configure-oci-credentials
