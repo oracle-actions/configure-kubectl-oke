@@ -2,28 +2,23 @@
   "name": "@oracle-actions/configure-kubectl-oke",
   "version": "1.0.0",
   "author": {
-    "name": "Oracle Cloud Infrastructure Developer Adoption and Experience Tools",
+    "name": "Oracle Cloud Infrastructure",
     "email": "oci-dax-tools_ww@oracle.com"
   },
   "description": "GitHub Action to install and configure Kubectl for the specified Oracle Engine for Kubernetes (OKE) cluster",
-  "main": "dist/index.js",
-  "files": [
-    "LICENSE.txt",
-    "THIRD_PARTY_LICENSES.txt",
-    "lib/*"
-  ],
+  "main": "src/main.ts",
   "scripts": {
-    "prepare": "husky install",
-    "build": "tsc",
-    "format": "prettier --write **/*.ts",
-    "format-check": "prettier --check **/*.ts",
-    "package": "ncc build --source-map --license licenses.txt lib/main.js",
-    "all": "npm run build && npm run format && npm run package"
+    "build": "ncc build src/main.ts"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/oracle-actions/configure-kubectl-oke.git"
   },
+  "files": [
+    "LICENSE.txt",
+    "THIRD_PARTY_LICENSES.txt",
+    "dist/*"
+  ],
   "keywords": [
     "github",
     "actions",
@@ -39,22 +34,12 @@
     "@actions/core": "^1.6.0",
     "@actions/exec": "^1.1.0",
     "@actions/tool-cache": "^1.7.1",
-    "oci-common": "^2.5.0",
-    "oci-containerengine": "^2.5.0"
+    "oci-common": "^2.12.1",
+    "oci-containerengine": "^2.12.1"
   },
   "devDependencies": {
-    "@commitlint/cli": "^13.2.0",
-    "@commitlint/config-conventional": "^13.2.0",
-    "@types/node": "^16.10.3",
-    "@vercel/ncc": "^0.31.1",
-    "cz-conventional-changelog": "^3.0.1",
-    "husky": "^7.0.2",
-    "prettier": "^2.4.1",
-    "typescript": "^4.4.3"
-  },
-  "config": {
-    "commitizen": {
-      "path": "cz-conventional-changelog"
-    }
+    "@types/node": "^17.0.16",
+    "@vercel/ncc": "^0.33.1",
+    "typescript": "^4.5.5"
   }
 }
