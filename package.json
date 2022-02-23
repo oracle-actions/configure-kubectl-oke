@@ -34,12 +34,12 @@
     "@actions/core": "^1.6.0",
     "@actions/exec": "^1.1.0",
     "@actions/tool-cache": "^1.7.1",
-    "oci-common": "^2.12.1",
-    "oci-containerengine": "^2.12.1"
+    "oci-common": "^2.15.0",
+    "oci-containerengine": "^2.15.0"
   },
   "devDependencies": {
-    "@types/node": "^17.0.16",
-    "@vercel/ncc": "^0.33.1",
+    "@types/node": "^17.0.21",
+    "@vercel/ncc": "^0.33.3",
     "typescript": "^4.5.5"
   }
 }
