@@ -83,7 +83,7 @@ Released under the Universal Permissive License v1.0 as shown at
 <https://oss.oracle.com/licenses/upl/>.
 
 [1]: https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/clienvironmentvariables.htm
-
+[2]: https://docs.github.com/en/actions/learn-github-actions/environment-variables
 [OKE]: https://www.oracle.com/cloud-native/container-engine-kubernetes/
 [CC]:  http://github.com/oracle-actions/configure-oci-credentials
 [OSG]: https://docs.oracle.com/en-us/iaas/Content/Security/Concepts/security_guide.htm
