@@ -6,7 +6,7 @@ the specified [Oracle Container Engine for Kubernetes][OKE] (OKE) cluster.
 ## Prerequisites
 
 The target OKE cluster must have a **public Kubernetes API Endpoint** in
-order for the GitHub Action to connection to the cluster.
+order for the GitHub Action to successfully connect to the cluster.
 
 The following [OCI CLI environment variables][1] must be defined for at least
 the `configure-kubectl-oke` task:
