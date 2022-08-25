@@ -27,7 +27,7 @@ The following sample workflow configures `kubectl` for the `OKE_CLUSTER_OCID` OK
 ```yaml
 jobs:
   install-kubectl:
-    runs-on: ubuntu
+    runs-on: ubuntu-latest
     name: Install Kubectl for OKE
     env:
       OCI_CLI_USER: ${{ secrets.OCI_CLI_USER }}
