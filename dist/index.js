@@ -44508,7 +44508,7 @@ function configureKubectl() {
             ((_a = oke.endpointConfig) === null || _a === void 0 ? void 0 : _a.isPublicIpEnabled)) {
             const kubectlPath = yield getKubectl(oke.kubernetesVersion);
             _actions_core__WEBPACK_IMPORTED_MODULE_3__.addPath(kubectlPath);
-            const kubeconfig = yield oci_common__WEBPACK_IMPORTED_MODULE_7__.getStringFromResponseBody((yield ceClient.createKubeconfig({
+            const kubeconfig = yield (0,oci_common__WEBPACK_IMPORTED_MODULE_7__.getStringFromResponseBody)((yield ceClient.createKubeconfig({
                 clusterId: oke.id,
                 createClusterKubeconfigContentDetails: {
                     tokenVersion: '2.0.0',
