@@ -1,4 +1,4 @@
-/* Copyright (c) 2021, Oracle and/or its affiliates.
+/* Copyright (c) 2021, 2022, Oracle and/or its affiliates.
  * Licensed under the Universal Permissive License v1.0 as shown at https://oss.oracle.com/licenses/upl.
  */
 import * as fs from 'fs';
@@ -10,7 +10,7 @@ import * as exec from '@actions/exec';
 import * as tc from '@actions/tool-cache';
 
 import * as ce from 'oci-containerengine';
-import common = require('oci-common');
+import * as common from 'oci-common';
 
 /**
  * This function checks the local tools-cache before installing
@@ -106,7 +106,7 @@ async function configureKubectl(): Promise<void> {
       encoding: 'utf-8'
     });
   } else {
-    core.setFailed('Error: Unable to connect to Oracle Engine for Kubenetes.');
+    core.setFailed('Error: Unable to connect to Oracle Container Engine for Kubenetes.');
   }
 }
 
