@@ -1,4 +1,4 @@
-/* Copyright (c) 2021, Oracle and/or its affiliates.
+/* Copyright (c) 2021, 2022, Oracle and/or its affiliates.
  * Licensed under the Universal Permissive License v1.0 as shown at https://oss.oracle.com/licenses/upl.
  */
 import * as fs from 'fs';
@@ -10,7 +10,7 @@ import * as exec from '@actions/exec';
 import * as tc from '@actions/tool-cache';
 
 import * as ce from 'oci-containerengine';
-import common = require('oci-common');
+import { Region, SimpleAuthenticationDetailsProvider, getStringFromResponseBody } from 'oci-common';
 
 /**
  * This function checks the local tools-cache before installing
@@ -50,9 +50,9 @@ async function configureKubectl(): Promise<void> {
   const user = process.env.OCI_CLI_USER || '';
   const fingerprint = process.env.OCI_CLI_FINGERPRINT || '';
   const privateKey = process.env.OCI_CLI_KEY_CONTENT || '';
-  const region = common.Region.fromRegionId(process.env.OCI_CLI_REGION || '');
+  const region = Region.fromRegionId(process.env.OCI_CLI_REGION || '');
 
-  const authProvider = new common.SimpleAuthenticationDetailsProvider(
+  const authProvider = new SimpleAuthenticationDetailsProvider(
     tenancy,
     user,
     fingerprint,
@@ -80,7 +80,7 @@ async function configureKubectl(): Promise<void> {
     const kubectlPath = await getKubectl(oke.kubernetesVersion);
     core.addPath(kubectlPath);
 
-    const kubeconfig = await common.getStringFromResponseBody(
+    const kubeconfig = await getStringFromResponseBody(
       (
         await ceClient.createKubeconfig({
           clusterId: oke.id,
@@ -106,7 +106,7 @@ async function configureKubectl(): Promise<void> {
       encoding: 'utf-8'
     });
   } else {
-    core.setFailed('Error: Unable to connect to Oracle Engine for Kubenetes.');
+    core.setFailed('Error: Unable to connect to Oracle Container Engine for Kubenetes.');
   }
 }
 
