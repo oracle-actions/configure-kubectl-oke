@@ -74,11 +74,12 @@ async function configureKubectl(): Promise<void> {
   if (
     oke &&
     oke.id &&
-    oke.kubernetesVersion &&
-    oke.endpointConfig?.isPublicIpEnabled
+    oke.kubernetesVersion
   ) {
     const kubectlPath = await getKubectl(oke.kubernetesVersion);
     core.addPath(kubectlPath);
+    
+    const clusterEndpoint = ce.models.CreateClusterKubeconfigContentDetails.Endpoint;
 
     const kubeconfig = await getStringFromResponseBody(
       (
@@ -86,9 +87,7 @@ async function configureKubectl(): Promise<void> {
           clusterId: oke.id,
           createClusterKubeconfigContentDetails: {
             tokenVersion: '2.0.0',
-            endpoint:
-              ce.models.CreateClusterKubeconfigContentDetails.Endpoint
-                .PublicEndpoint
+            endpoint: clusterEndpoint.PublicEndpoint || clusterEndpoint.PrivateEndpoint
           }
         })
       ).value
