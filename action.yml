@@ -9,6 +9,10 @@ inputs:
   cluster:
     required: true
     description: The OCID of the target OKE cluster
+  enablePrivateEndpoint:
+    required: false
+    description: Connect on a Private Kubernetes API Endpoint
+    default: 'false'
 branding:
   icon: 'circle'
   color: 'red'

@@ -52,6 +52,10 @@ async function configureKubectl(): Promise<void> {
   const privateKey = process.env.OCI_CLI_KEY_CONTENT || '';
   const region = Region.fromRegionId(process.env.OCI_CLI_REGION || '');
 
+  // Inputs
+  const clusterOCID = core.getInput('cluster', {required: true});
+  const enablePrivateEndpoint = core.getInput('enablePrivateEndpoint').toLowerCase() === 'true';
+
   const authProvider = new SimpleAuthenticationDetailsProvider(
     tenancy,
     user,
@@ -67,18 +71,19 @@ async function configureKubectl(): Promise<void> {
 
   const oke = (
     await ceClient.getCluster({
-      clusterId: core.getInput('cluster', {required: true})
+      clusterId: clusterOCID
     })
   ).cluster;
 
   if (
     oke &&
     oke.id &&
-    oke.kubernetesVersion
+    oke.kubernetesVersion &&
+    (oke.endpointConfig?.isPublicIpEnabled || enablePrivateEndpoint)
   ) {
     const kubectlPath = await getKubectl(oke.kubernetesVersion);
     core.addPath(kubectlPath);
-    
+
     const clusterEndpoint = ce.models.CreateClusterKubeconfigContentDetails.Endpoint;
 
     const kubeconfig = await getStringFromResponseBody(
@@ -87,7 +92,7 @@ async function configureKubectl(): Promise<void> {
           clusterId: oke.id,
           createClusterKubeconfigContentDetails: {
             tokenVersion: '2.0.0',
-            endpoint: clusterEndpoint.PublicEndpoint || clusterEndpoint.PrivateEndpoint
+            endpoint: enablePrivateEndpoint ? clusterEndpoint.PrivateEndpoint : clusterEndpoint.PublicEndpoint
           }
         })
       ).value
