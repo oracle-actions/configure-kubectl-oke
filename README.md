@@ -4,7 +4,7 @@ Use this GitHub Action to install and configure `kubectl` to connect to the spec
 
 ## Prerequisites
 
-The target OKE cluster must have a **public Kubernetes API Endpoint** in order for the GitHub Action to successfully connect to the cluster.
+The target OKE cluster must have a **public Kubernetes API Endpoint** or you must deploy a [self-hosted GitHub Runner][6] to an instance on the same private subnet to enable Private Endpoint with Inputs in order for the GitHub Action to successfully connect to the cluster.
 
 The following [OCI CLI environment variables][2] must be defined for the workflow:
 
@@ -19,10 +19,11 @@ We recommend using GitHub Secrets to store these values. [Defining your environm
 ## Inputs
 
 * `cluster`: (Required) The OCID of the OKE cluster to configure
+* `enablePrivateEndpoint`: (Optional) set this to 'true' if you need to connect to a private Kubernetes API endpoint. Requires a self-hosted GitHub Runner deployed to an instance on the same private subnet. Default: false
 
 ## Sample workflow steps
 
-The following sample workflow configures `kubectl` for the `OKE_CLUSTER_OCID` OKE cluster.
+The following sample workflow configures `kubectl` for the `OKE_CLUSTER_OCID` OKE cluster using **public** API Endpoint.
 
 ```yaml
 jobs:
@@ -47,6 +48,33 @@ jobs:
         run: kubectl get nodes -A
 ```
 
+The following sample workflow configures `kubectl` for the `OKE_CLUSTER_OCID` OKE cluster using **private** API Endpoint.
+> Note changes on `runs-on` and `enablePrivateEndpoint`
+
+```yaml
+jobs:
+  install-kubectl:
+    runs-on: self-hosted
+    name: Install Kubectl for OKE
+    env:
+      OCI_CLI_USER: ${{ secrets.OCI_CLI_USER }}
+      OCI_CLI_TENANCY: ${{ secrets.OCI_CLI_TENANCY }}
+      OCI_CLI_FINGERPRINT: ${{ secrets.OCI_CLI_FINGERPRINT }}
+      OCI_CLI_KEY_CONTENT: ${{ secrets.OCI_CLI_KEY_CONTENT }}
+      OCI_CLI_REGION: ${{ secrets.OCI_CLI_REGION }}
+
+    steps:
+      - name: Configure Kubectl
+        uses: oracle-actions/configure-kubectl-oke@v1.1
+        id: test-configure-kubectl-oke-action
+        with:
+          cluster: ${{ secrets.OKE_CLUSTER_OCID }}
+          enablePrivateEndpoint: true
+
+      - name: Run Kubectl
+        run: kubectl get nodes -A
+```
+
 ## Contributing
 
 We welcome contributions from the community. Before submitting a pull request, please [review our contribution guide][4].
@@ -66,3 +94,4 @@ Released under the Universal Permissive License v1.0 as shown at <https://oss.or
 [3]: https://docs.github.com/en/actions/learn-github-actions/environment-variables
 [4]:  /CONTRIBUTING.md
 [5]:  ./SECURITY.md
+[6]: https://docs.github.com/en/actions/hosting-your-own-runners
