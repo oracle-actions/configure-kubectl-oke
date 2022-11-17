@@ -39,7 +39,7 @@ jobs:
 
     steps:
       - name: Configure Kubectl
-        uses: oracle-actions/configure-kubectl-oke@v1.1
+        uses: oracle-actions/configure-kubectl-oke@v1.2.0
         id: test-configure-kubectl-oke-action
         with:
           cluster: ${{ secrets.OKE_CLUSTER_OCID }}
@@ -64,7 +64,7 @@ jobs:
 
     steps:
       - name: Configure Kubectl
-        uses: oracle-actions/configure-kubectl-oke@v1.1
+        uses: oracle-actions/configure-kubectl-oke@v1.2.0
         id: test-configure-kubectl-oke-action
         with:
           cluster: ${{ secrets.OKE_CLUSTER_OCID }}
