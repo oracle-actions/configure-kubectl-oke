@@ -19,7 +19,7 @@ We recommend using GitHub Secrets to store these values. [Defining your environm
 ## Inputs
 
 * `cluster`: (Required) The OCID of the OKE cluster to configure
-* `enablePrivateEndpoint`: (Optional) If you want to connect on a Private Kubernetes API Endpoint. Default: false
+* `enablePrivateEndpoint`: (Optional) set this to 'true' if you need to connect to a private Kubernetes API endpoint. Requires a self-hosted GitHub Runner deployed to an instance on the same private subnet. Default: false
 
 ## Sample workflow steps
 
