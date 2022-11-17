@@ -4,7 +4,7 @@ Use this GitHub Action to install and configure `kubectl` to connect to the spec
 
 ## Prerequisites
 
-The target OKE cluster must have a **public Kubernetes API Endpoint** or you must run on a [Self-Hosted GitHub Action][6] to enable Private Endpoint with Inputs in order for the GitHub Action to successfully connect to the cluster.
+The target OKE cluster must have a **public Kubernetes API Endpoint** or you must deploy a [self-hosted GitHub Runner][6] to an instance on the same private subnet to enable Private Endpoint with Inputs in order for the GitHub Action to successfully connect to the cluster.
 
 The following [OCI CLI environment variables][2] must be defined for the workflow:
 
