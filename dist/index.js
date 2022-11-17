@@ -44495,24 +44495,28 @@ function configureKubectl() {
         const fingerprint = process.env.OCI_CLI_FINGERPRINT || '';
         const privateKey = process.env.OCI_CLI_KEY_CONTENT || '';
         const region = oci_common__WEBPACK_IMPORTED_MODULE_7__.Region.fromRegionId(process.env.OCI_CLI_REGION || '');
+        // Inputs
+        const clusterOCID = _actions_core__WEBPACK_IMPORTED_MODULE_3__.getInput('cluster', { required: true });
+        const enablePrivateEndpoint = _actions_core__WEBPACK_IMPORTED_MODULE_3__.getInput('enablePrivateEndpoint').toLowerCase() === 'true';
         const authProvider = new oci_common__WEBPACK_IMPORTED_MODULE_7__.SimpleAuthenticationDetailsProvider(tenancy, user, fingerprint, privateKey, null, region);
         const ceClient = new oci_containerengine__WEBPACK_IMPORTED_MODULE_6__.ContainerEngineClient({
             authenticationDetailsProvider: authProvider
         });
         const oke = (yield ceClient.getCluster({
-            clusterId: _actions_core__WEBPACK_IMPORTED_MODULE_3__.getInput('cluster', { required: true })
+            clusterId: clusterOCID
         })).cluster;
         if (oke &&
             oke.id &&
             oke.kubernetesVersion &&
-            ((_a = oke.endpointConfig) === null || _a === void 0 ? void 0 : _a.isPublicIpEnabled)) {
+            (((_a = oke.endpointConfig) === null || _a === void 0 ? void 0 : _a.isPublicIpEnabled) || enablePrivateEndpoint)) {
             const kubectlPath = yield getKubectl(oke.kubernetesVersion);
             _actions_core__WEBPACK_IMPORTED_MODULE_3__.addPath(kubectlPath);
+            const clusterEndpoint = oci_containerengine__WEBPACK_IMPORTED_MODULE_6__.models.CreateClusterKubeconfigContentDetails.Endpoint;
             const kubeconfig = yield (0,oci_common__WEBPACK_IMPORTED_MODULE_7__.getStringFromResponseBody)((yield ceClient.createKubeconfig({
                 clusterId: oke.id,
                 createClusterKubeconfigContentDetails: {
                     tokenVersion: '2.0.0',
-                    endpoint: oci_containerengine__WEBPACK_IMPORTED_MODULE_6__.models.CreateClusterKubeconfigContentDetails.Endpoint.PublicEndpoint
+                    endpoint: enablePrivateEndpoint ? clusterEndpoint.PrivateEndpoint : clusterEndpoint.PublicEndpoint
                 }
             })).value);
             const kubeconfigPath = path__WEBPACK_IMPORTED_MODULE_2__.join(os__WEBPACK_IMPORTED_MODULE_1__.homedir(), '.kube');
