@@ -11,7 +11,7 @@ inputs:
     description: The OCID of the target OKE cluster
   enablePrivateEndpoint:
     required: false
-    description: Connect on a Private Kubernetes API Endpoint
+    description: Set to true to connect to a private Kubernetes API endpoint. Requires a self-hosted GitHub Runner.
     default: 'false'
 branding:
   icon: 'circle'

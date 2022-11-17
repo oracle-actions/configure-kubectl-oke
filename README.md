@@ -4,7 +4,7 @@ Use this GitHub Action to install and configure `kubectl` to connect to the spec
 
 ## Prerequisites
 
-The target OKE cluster must have a **public Kubernetes API Endpoint** or you must deploy a [self-hosted GitHub Runner][6] to an instance on the same private subnet to enable Private Endpoint with Inputs in order for the GitHub Action to successfully connect to the cluster.
+The target OKE cluster must have a **public Kubernetes API Endpoint** in order for a standard GitHub Action workflow to successfully connect to the cluster. To access an OKE cluster with a private Kubernetes API endpoint, you must deploy a [self-hosted GitHub Runner][6] to an Oracle Cloud Infrastructure (OCI) compute instance on the same private subnet as that endpoint.
 
 The following [OCI CLI environment variables][2] must be defined for the workflow:
 
@@ -48,8 +48,7 @@ jobs:
         run: kubectl get nodes -A
 ```
 
-The following sample workflow configures `kubectl` for the `OKE_CLUSTER_OCID` OKE cluster using **private** API Endpoint.
-> Note changes on `runs-on` and `enablePrivateEndpoint`
+The following sample workflow configures `kubectl` for the `OKE_CLUSTER_OCID` OKE cluster using **private** API Endpoint by adding `runs-on: self-hosted` to ensure this action runs on your self-hosted GitHub Runner. It also sets `enablePrivateEndpoint` to `true` to ensure the `kubeconfig` file contains the correct Kubernetes API information.
 
 ```yaml
 jobs:
