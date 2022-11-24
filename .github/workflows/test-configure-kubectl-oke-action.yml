@@ -20,7 +20,7 @@ jobs:
       OCI_CLI_KEY_CONTENT: ${{ secrets.OCI_CLI_KEY_CONTENT }}
       OCI_CLI_REGION: ${{ secrets.OCI_CLI_REGION }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Configure Kubectl for OKE cluster in home region
         uses: ./
@@ -42,7 +42,7 @@ jobs:
       OCI_CLI_REGION: ${{ secrets.OCI_CLI_NEW_REGION }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Configure Kubectl for OKE cluster in new region
         uses: ./
         id: test-configure-kubectl-oke-action-new-region
