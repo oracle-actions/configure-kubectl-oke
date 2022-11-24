@@ -44472,7 +44472,7 @@ function getKubectl(version) {
             const kubectl = yield _actions_tool_cache__WEBPACK_IMPORTED_MODULE_5__.downloadTool(`https://storage.googleapis.com/kubernetes-release/release/${version}/bin/linux/amd64/kubectl`);
             cachedKubectl = yield _actions_tool_cache__WEBPACK_IMPORTED_MODULE_5__.cacheFile(kubectl, 'kubectl', 'kubectl', version);
         }
-        fs__WEBPACK_IMPORTED_MODULE_0__.chmodSync(path__WEBPACK_IMPORTED_MODULE_2__.join(cachedKubectl, 'kubectl'), 0o644);
+        fs__WEBPACK_IMPORTED_MODULE_0__.chmodSync(path__WEBPACK_IMPORTED_MODULE_2__.join(cachedKubectl, 'kubectl'), 0o755);
         return cachedKubectl;
     });
 }
