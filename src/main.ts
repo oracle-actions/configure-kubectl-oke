@@ -29,7 +29,7 @@ async function getKubectl(version: string): Promise<string> {
     cachedKubectl = await tc.cacheFile(kubectl, 'kubectl', 'kubectl', version);
   }
 
-  fs.chmodSync(path.join(cachedKubectl, 'kubectl'), 0o644);
+  fs.chmodSync(path.join(cachedKubectl, 'kubectl'), 0o755);
   return cachedKubectl;
 }
 
