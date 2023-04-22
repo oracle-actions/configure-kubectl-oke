@@ -34,8 +34,8 @@
     "@actions/core": "^1.9.1",
     "@actions/exec": "^1.1.1",
     "@actions/tool-cache": "^2.0.1",
-    "oci-common": "^2.43.0",
-    "oci-containerengine": "^2.43.0"
+    "oci-common": "^2.57.0",
+    "oci-containerengine": "^2.57.0"
   },
   "devDependencies": {
     "@types/node": "^18.7.18",
