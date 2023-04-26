@@ -39,7 +39,7 @@ jobs:
 
     steps:
       - name: Configure Kubectl
-        uses: oracle-actions/configure-kubectl-oke@v1.3.1
+        uses: oracle-actions/configure-kubectl-oke@v1.3.2
         id: test-configure-kubectl-oke-action
         with:
           cluster: ${{ secrets.OKE_CLUSTER_OCID }}
@@ -64,7 +64,7 @@ jobs:
 
     steps:
       - name: Configure Kubectl
-        uses: oracle-actions/configure-kubectl-oke@v1.3.1
+        uses: oracle-actions/configure-kubectl-oke@v1.3.2
         id: test-configure-kubectl-oke-action
         with:
           cluster: ${{ secrets.OKE_CLUSTER_OCID }}
@@ -84,7 +84,7 @@ Please consult the [security guide][5] for our responsible security vulnerabilit
 
 ## License
 
-Copyright (c) 2021, 2022, Oracle and/or its affiliates.
+Copyright (c) 2021, 2023, Oracle and/or its affiliates.
 
 Released under the Universal Permissive License v1.0 as shown at <https://oss.oracle.com/licenses/upl/>.
 

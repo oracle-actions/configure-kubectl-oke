@@ -8,7 +8,8 @@
   "description": "GitHub Action to install and configure Kubectl for the specified Oracle Engine for Kubernetes (OKE) cluster",
   "main": "src/main.ts",
   "scripts": {
-    "build": "ncc build src/main.ts"
+    "build": "ncc build src/main.ts",
+    "version": "npm run build"
   },
   "repository": {
     "type": "git",
