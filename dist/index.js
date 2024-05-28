@@ -88562,6 +88562,35 @@ const exec = __importStar(__nccwpck_require__(1514));
 const tc = __importStar(__nccwpck_require__(7784));
 const ce = __importStar(__nccwpck_require__(8818));
 const oci_common_1 = __nccwpck_require__(5049);
+const mapArch = (arch) => {
+    const mappings = {
+        x32: "386",
+        x64: "amd64",
+        arm: "arm64",
+        arm64: "arm64"
+    };
+    return mappings[arch];
+};
+const mapOS = (osPlatform) => {
+    const mappings = {
+        darwin: "darwin",
+        win32: "windows",
+        linux: "linux"
+    };
+    return mappings[osPlatform];
+};
+const getArch = () => {
+    return mapArch(os.arch());
+};
+const getPlatform = () => {
+    return mapOS(os.platform());
+};
+const getDownloadURL = (version) => {
+    const arch = getArch();
+    const platform = getPlatform();
+    const fileSuffix = platform === "windows" ? ".exe" : "";
+    return `https://dl.k8s.io/release/${version}/bin/${platform}/${arch}/kubectl${fileSuffix}`;
+};
 /**
  * This function checks the local tools-cache before installing
  * kubectl from upstream.
@@ -88572,7 +88601,7 @@ const oci_common_1 = __nccwpck_require__(5049);
 async function getKubectl(version) {
     let cachedKubectl = tc.find("kubectl", version);
     if (!cachedKubectl) {
-        const kubectl = await tc.downloadTool(`https://storage.googleapis.com/kubernetes-release/release/${version}/bin/linux/amd64/kubectl`);
+        const kubectl = await tc.downloadTool(getDownloadURL(version));
         cachedKubectl = await tc.cacheFile(kubectl, "kubectl", "kubectl", version);
     }
     fs.chmodSync(path.join(cachedKubectl, "kubectl"), 0o755);

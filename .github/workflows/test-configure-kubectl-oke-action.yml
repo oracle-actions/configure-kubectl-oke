@@ -9,12 +9,22 @@ on:
       - main
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
 jobs:
   test-action-home-region:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+    runs-on: ${{ matrix.os }}
     name: Sanity test the action in the tenancy home region
     env:
       OCI_CLI_USER: ${{ secrets.OCI_CLI_USER }}
