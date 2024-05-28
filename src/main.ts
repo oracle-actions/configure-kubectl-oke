@@ -12,6 +12,40 @@ import * as tc from '@actions/tool-cache';
 import * as ce from 'oci-containerengine';
 import { Region, SimpleAuthenticationDetailsProvider, getStringFromResponseBody } from 'oci-common';
 
+const mapArch = (arch: string): string => {
+  const mappings = {
+    x32: '386',
+    x64: 'amd64',
+    arm: 'arm64',
+    arm64: 'arm64',
+  }
+  return mappings[arch as keyof typeof mappings]
+}
+
+const mapOS = (osPlatform: string): string => {
+  const mappings = {
+    darwin: 'darwin',
+    win32: 'windows',
+    linux: 'linux',
+  }
+  return mappings[osPlatform as keyof typeof mappings]
+}
+
+const getArch = (): string => {
+  return mapArch(os.arch());
+}
+
+const getPlatform = (): string => {
+  return mapOS(os.platform());
+}
+
+const getDownloadURL = (version: string): string => {
+  const arch = getArch();
+  const platform = getPlatform();
+  const fileSuffix = platform === 'windows' ? '.exe' : ''
+  return `https://dl.k8s.io/release/${version}/bin/${platform}/${arch}/kubectl${fileSuffix}`;
+}
+
 /**
  * This function checks the local tools-cache before installing
  * kubectl from upstream.
@@ -23,9 +57,7 @@ async function getKubectl(version: string): Promise<string> {
   let cachedKubectl = tc.find('kubectl', version);
 
   if (!cachedKubectl) {
-    const kubectl = await tc.downloadTool(
-      `https://storage.googleapis.com/kubernetes-release/release/${version}/bin/linux/amd64/kubectl`
-    );
+    const kubectl = await tc.downloadTool(getDownloadURL(version));
     cachedKubectl = await tc.cacheFile(kubectl, 'kubectl', 'kubectl', version);
   }
 
