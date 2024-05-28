@@ -1,7 +1,7 @@
 {
   "name": "@oracle-actions/configure-kubectl-oke",
   "description": "GitHub Action to install and configure Kubectl for the specified Oracle Engine for Kubernetes (OKE) cluster",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "author": {
     "name": "Oracle Cloud Infrastructure",
     "email": "oci-dax-tools_ww@oracle.com"
