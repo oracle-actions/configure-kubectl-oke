@@ -9,10 +9,13 @@ on:
       - main
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   test-action-home-region:
     runs-on: ubuntu-latest
-    name: Test the action in the tenancy home region
+    name: Sanity test the action in the tenancy home region
     env:
       OCI_CLI_USER: ${{ secrets.OCI_CLI_USER }}
       OCI_CLI_TENANCY: ${{ secrets.OCI_CLI_TENANCY }}
@@ -29,9 +32,7 @@ jobs:
           cluster: ${{ secrets.OKE_CLUSTER_ID }}
 
       - name: Check that the correct kubectl version is active
-        run: |
-          which kubectl
-          kubectl version
+        run: kubectl version
 
       - name: Get pods using Kubectl
         run: kubectl get pods -A

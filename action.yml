@@ -1,10 +1,14 @@
-# Copyright (c) 2021, 2022 Oracle and/or its affiliates.
+# Copyright (c) 2021, 2024 Oracle and/or its affiliates.
 # Licensed under the Universal Permissive License v1.0 as shown at https://oss.oracle.com/licenses/upl.
 ---
-name: 'Configure Kubectl for Oracle Container Engine for Kubernetes (OKE)'
+name: "Configure Kubectl for Oracle Container Engine for Kubernetes (OKE)"
 description: >-
-  Install and configure Kubectl for a specific Oracle Container Engine for Kubernetes
-  (OKE) cluster
+  Install and configure Kubectl for a specific Oracle Container Engine for Kubernetes (OKE) cluster
+author: "Oracle Cloud Infrastructure"
+branding:
+  icon: "circle"
+  color: "red"
+
 inputs:
   cluster:
     required: true
@@ -12,10 +16,8 @@ inputs:
   enablePrivateEndpoint:
     required: false
     description: Set to true to connect to a private Kubernetes API endpoint. Requires a self-hosted GitHub Runner.
-    default: 'false'
-branding:
-  icon: 'circle'
-  color: 'red'
+    default: "false"
+
 runs:
-  using: 'node16'
-  main: 'dist/index.js'
+  using: node20
+  main: dist/index.js
