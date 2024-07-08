@@ -46,7 +46,7 @@
     "@actions/core": "^1.10.1",
     "@actions/exec": "^1.1.1",
     "@actions/tool-cache": "^2.0.1",
-    "oci-common": "^2.88.1",
+    "oci-common": "^2.89.1",
     "oci-containerengine": "^2.88.1"
   },
   "devDependencies": {
