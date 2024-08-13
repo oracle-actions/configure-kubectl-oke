@@ -16,6 +16,8 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    ignore:
+      - dependency-name: 'oci-*'
     groups:
       npm-development:
         dependency-type: development
