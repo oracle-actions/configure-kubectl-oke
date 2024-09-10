@@ -88549,7 +88549,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.configureKubectl = void 0;
+exports.configureKubectl = configureKubectl;
 /* Copyright (c) 2021, 2024, Oracle and/or its affiliates.
  * Licensed under the Universal Permissive License v1.0 as shown at https://oss.oracle.com/licenses/upl.
  */
@@ -88665,7 +88665,6 @@ async function configureKubectl() {
             core.setFailed(error.message);
     }
 }
-exports.configureKubectl = configureKubectl;
 
 
 /***/ }),
