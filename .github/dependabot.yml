@@ -5,7 +5,7 @@ updates:
     schedule:
       interval: weekly
     ignore:
-      - dependency-name: 'oracle-actions/*'
+      - dependency-name: "oracle-actions/*"
     groups:
       actions-minor:
         update-types:
@@ -17,7 +17,7 @@ updates:
     schedule:
       interval: weekly
     ignore:
-      - dependency-name: 'oci-*'
+      - dependency-name: "oci-*"
     groups:
       npm-development:
         dependency-type: development
